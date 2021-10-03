@@ -6,28 +6,29 @@ using namespace std;
 class Solution {
 public:
     int rob(vector<int>& nums) {
+        int N = nums.size();
 
-        if(nums.size() == 1)
-            return nums[0];
-        else if(nums.size() <= 2)
+        if(N == 0)
         {
-            return max(nums[0], nums[1]);
+            return 0;
         }
 
-        int answer = robFrom(nums);
-        return answer;
-    }
+        vector<int> maxRobbedAmount;
+        maxRobbedAmount.resize(N + 1);
 
-    int robFrom(vector<int>& nums)
-    {
-        int SIZE = nums.size();
-        for(int i = 0; i < nums.size() - 2; i++)
+        maxRobbedAmount[N] = 0;
+        maxRobbedAmount[N - 1] = nums[N - 1];
+
+        for(int i = N - 2; i >= 0; i--)
         {
-            nums[i + 2] = nums[i] + nums[i + 2];
+            maxRobbedAmount[i] = max(maxRobbedAmount[i + 1], maxRobbedAmount[i + 2] + nums[i]);
         }
 
-        return max(nums[SIZE - 2], nums[SIZE - 1]);
+        return maxRobbedAmount[0];
     }
+
+
+
 };
 
 int main()
